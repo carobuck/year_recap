@@ -13,3 +13,16 @@ ideas/notes:
 
 TODO: figure out how to convert this to DF and extract all places
 ooh there's actually different lists! there are 'activity segments' and place visits. maybe I just take the place visits. make this easier! then it would rely on google's models to determine if I "visited" or just walked by
+
+publish some fake data that this works with, so other ppl can try it (so I don't have to put my own data live)
+
+Have to choose A LOT of data to ignore...otherwise this gets much more complicated, much faster. Ignoring so far: waypoint paths, child location visits, other candidate locations (I'm assuming that Google's first location guess is accurate, so I don't have to manually verify all the places), confidence scores for locations/places
+
+might have to dedupe some places? if I visited the same place more than once in a day? (else need to use date + time for animation line)
+
+NOTE: I manually filled in some place names (because google wouldn't know what they are if not named in Google maps)
+
+make some callouts about how these place names aren't perfect and google thinks I went some places I don't think I went (like The Import Doctors Foreign Auto Specialists). but maybe I wandered around out front for a while on the phone?? 
+OR it flagged the place next door...I was actually in PCC not Import Doctors. LOLOL Imperfect data!
+
+thought - what timezone does google export data in?? I don't think it matters too much for this project, but I'm curious... 
