@@ -135,3 +135,60 @@ devtools::install_github("rstudio/r2d3")
 
 library(r2d3)
 r2d3(data=c(1.3, 0.6, 0.8, 0.95, 0.40, 0.20), script = "test_example.js")
+
+# or easier way out (to get this out the door faster) would be to just use gganimate, looks like I can do lots of what I want
+# https://www.datanovia.com/en/blog/gganimate-how-to-create-plots-with-beautiful-animation-in-r/
+# TODO: come back and practice d3 to convert chart
+
+# ggplot2 animated viz ----
+library(gganimate) 
+# TODO: install gifski or av for gif or video output from gganimate!
+all_places_clean %>%
+  filter(state == 'Massachusetts') %>%
+  ggplot(aes(x=longitudeE7,y=latitudeE7)) +
+  #geom_point(aes(color=state)) +
+  theme_minimal() +
+  geom_line(color='black') +
+  #geom_point(aes(group = seq_along(date_visit),color=state)) +
+  transition_time(startTimestamp)
+
+all_places_clean %>%
+  group_by(address) %>%
+  mutate(num_visits = n()) %>%
+  filter(state == 'Massachusetts') %>%
+  ggplot(aes(x=longitudeE7,y=latitudeE7)) +
+  geom_path(data = all_places_clean %>% filter(state == 'Massachusetts') %>%
+              arrange(startTimestamp),
+            aes(x=longitudeE7,y=latitudeE7),color='gray') +
+  geom_point(aes(fill=state,size=num_visits+5),color='black',shape=21) +
+  theme_minimal()
+
+# static, but with plotly
+all_places_clean %>%
+  group_by(address) %>%
+  mutate(num_visits = n()) %>%
+  rename(Place=name) %>%
+  #filter(state == 'Massachusetts') %>%
+  select(-startTimestamp) %>%
+  ggplot(aes(x=longitudeE7,y=latitudeE7,label=Place)) +
+  geom_path(data = all_places_clean %>% #filter(state == 'Massachusetts') %>%
+              rename(Place=name) %>%
+              arrange(startTimestamp),
+            aes(x=longitudeE7,y=latitudeE7),color='gray') +
+  geom_point(aes(fill=state,size=num_visits),color='black',shape=21) +
+  theme_minimal() -> p
+plotly::ggplotly(p,tooltip = c("label")) %>% plotly::config(scrollZoom=TRUE)
+
+all_places_clean %>%
+  group_by(address) %>%
+  mutate(num_visits = n()) %>%
+  filter(state == 'Massachusetts') %>%
+  ggplot(aes(x=longitudeE7,y=latitudeE7)) +
+  geom_point(aes(fill=state,size=num_visits+5),color='black',shape=21) +
+  theme_minimal() -> p
+p + geom_path(data = all_places_clean %>% filter(state == 'Massachusetts') %>%
+              arrange(startTimestamp),
+            aes(x=longitudeE7,y=latitudeE7,group=startTimestamp),color='gray') +
+  transition_time(startTimestamp)
+  
+

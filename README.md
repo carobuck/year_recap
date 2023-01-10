@@ -49,3 +49,5 @@ d3 resources:
 * d3 gallery on observable: https://observablehq.com/@d3/gallery
 * connected scatterplot: https://observablehq.com/@d3/connected-scatterplot
 * zooming https://observablehq.com/@d3/scatterplot-tour and https://observablehq.com/@d3/smooth-zooming 
+
+"in the interest of not letting perfect hold up the good...I present you with:"
