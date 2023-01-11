@@ -1,0 +1,60 @@
+---
+title: "2022_recap"
+format: html
+theme: styles.scss
+execute:
+  echo: false
+  warning: false
+---
+::: {.column-page}
+
+Stories. Every day is made up of them (both monumental and mundane), and in 2022 I decided that I wanted to live to tell a good life story, which means I had to do things that would lead to good stories. 
+
+
+```{r}
+#| fig-cap: "*Double click to reset zoom level*"
+#| fig-alt: "A connected, interactive scatterplot that shows all the places Caro visited in 2022."
+library(tidyverse)
+library(plotly)
+all_places_clean <- read_csv('/Users/caroline.buck/Desktop/Fun_R/recap_2022/all_places_clean.csv')
+all_places_clean %>%
+  group_by(address) %>%
+  mutate(num_visits = n()) %>%
+  rename(Place=name) %>%
+  #filter(state == 'Massachusetts') %>%
+  select(-startTimestamp) %>%
+  ggplot(aes(x=longitudeE7,y=latitudeE7,label=Place)) +
+  geom_path(data = all_places_clean %>% #filter(state == 'Massachusetts') %>%
+              rename(Place=name) %>%
+              arrange(startTimestamp),
+            aes(x=longitudeE7,y=latitudeE7),color='gray') +
+  geom_point(aes(fill=state,size=num_visits),color='black',shape=21) +
+  theme_minimal() +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank(),
+        panel.grid = element_blank()) +
+  scale_size(guide = 'none') +
+  scale_fill_discrete(name='') +
+  labs(title='Where in the world did Caro go?',
+       subtitle = 'Double click to reset zoom level') -> p
+plotly::ggplotly(p,tooltip = c("label")) %>% plotly::config(scrollZoom=TRUE)
+```
+:::
+
+When looking around for some wonky data for a new project, felt right to use 
+
+
+[words workds hi hello]{.portfolio}
+
+[words workds hi hello]{.bold}
+
+Here are some of my favorite stories from this year:  (add photos in grid)
+La Sagrada Familia
+STP (something I never thought I'd do)
+moving?? weddings?
+each and every person who contributed to my life laugh counts and made life a little bit more exciting, hilarious and marvelously complex. ty. 
+
+Are you inspired to go live your own life story now? To live a life that tells a good story? Read one of my favorite books that got me started ... link book here
+
+
+And remember, as they always say, *a good time or a good story!*

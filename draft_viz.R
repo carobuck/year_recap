@@ -6,6 +6,8 @@ library(tidyverse)
 
 all_places <- read_csv('/Users/caroline.buck/Desktop/Fun_R/recap_2022/all_places_2022.csv')
 
+# for quarto purposes, read in the cleaned version of the csv, so don't have to rely on this script/cleaning pipe
+write_csv(all_places_clean,'all_places_clean.csv')
 # a little more data cleaning is needed...oops. ----
 all_places %>%
   mutate(date_visit = lubridate::as_date(startTimestamp)) %>% # date got messed up in excel
@@ -176,9 +178,18 @@ all_places_clean %>%
               arrange(startTimestamp),
             aes(x=longitudeE7,y=latitudeE7),color='gray') +
   geom_point(aes(fill=state,size=num_visits),color='black',shape=21) +
-  theme_minimal() -> p
+  theme_minimal() +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank(),
+        panel.grid = element_blank()) +
+  scale_size(guide = 'none') +
+  scale_fill_discrete(name='') +
+  labs(title='Where in the world did Caro go?',
+       subtitle = 'Double click to reset zoom level') -> p
 plotly::ggplotly(p,tooltip = c("label")) %>% plotly::config(scrollZoom=TRUE)
+print('hi')
 
+## code that doesn't exactly work like I want w/ animation :/ ----
 all_places_clean %>%
   group_by(address) %>%
   mutate(num_visits = n()) %>%
